@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import {BrowserRouter, Routes, Route} from "react-router-dom"
+import HomePage from "./HomePage"
+import RegisterPage from "./RegisterPage"
+import LoginPage from "./LoginPage"
+import UnprotectedHOC from "./helperComponents/UnprotectedHOC"
+import ProtectedHOC from "./helperComponents/ProtectedHOC"
+import FarmInfoListPage from "./FarmInfoListPage"
+import FarmInfoCreatePage from "./FarmInfoCreatePage"
+import FarmInfoUpdatePage from "./FarmInfoUpdatePage"
+import "./assets/style.css"
+import EachInfo from "./EachInfo"
 function App() {
-  const [count, setCount] = useState(0)
-
+ 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* uathenticated */}
+        <Route path="/" element={<UnprotectedHOC/>}>
+          <Route index element={<HomePage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+        {/* authenticated */}
+        <Route path="/farm" element={<ProtectedHOC />}>
+          <Route index element={<FarmInfoListPage/>} />
+          <Route path="create" element={<FarmInfoCreatePage/>} />
+          <Route path="update/:id" element={<FarmInfoUpdatePage/>} />
+          <Route path="record/:id" element={<EachInfo/>} />
+        </Route>
+        {/* <Route path="fa" */}
+    </Routes>
+    </BrowserRouter>
   )
 }
 
